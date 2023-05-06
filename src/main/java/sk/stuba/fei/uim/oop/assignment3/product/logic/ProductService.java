@@ -22,13 +22,13 @@ public class ProductService implements IProductService {
 
     @Override
     public Product create(ProductRequest request) {
-        Product p = new Product();
-        p.setName(request.getName());
-        p.setDescription(request.getDescription());
-        p.setAmount(request.getAmount());
-        p.setUnit(request.getUnit());
-        p.setPrice(request.getPrice());
-        return this.repository.save(p);
+        Product product = new Product();
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setAmount(request.getAmount());
+        product.setUnit(request.getUnit());
+        product.setPrice(request.getPrice());
+        return this.repository.save(product);
     }
 
     @Override
@@ -41,4 +41,32 @@ public class ProductService implements IProductService {
         throw new NotFoundException();
     }
     
+    @Override
+    public Product modifyProduct(long id, ProductRequest request) throws NotFoundException {
+        Product product = this.getProduct(id);
+        if (request.getName() != null) {
+            product.setName(request.getName());
+        }
+        if (request.getDescription() != null) {
+            product.setDescription(request.getDescription());
+        }
+        return this.repository.save(product);
+    }
+
+    @Override
+    public void deleteProduct(long id) throws NotFoundException {
+        this.repository.delete(this.getProduct(id));
+    }
+
+    @Override
+    public long getAmount(long id) throws NotFoundException {
+        return this.getProduct(id).getAmount();
+    }
+
+    @Override
+    public long modifyAmount(long id, long amount) throws NotFoundException {
+        Product product = this.getProduct(id);
+        product.setAmount(product.getAmount() + amount);
+        return product.getAmount();
+    }
 }
