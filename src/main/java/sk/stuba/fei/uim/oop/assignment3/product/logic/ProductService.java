@@ -67,6 +67,7 @@ public class ProductService implements IProductService {
     public long modifyAmount(long id, long amount) throws NotFoundException {
         Product product = this.getProduct(id);
         product.setAmount(product.getAmount() + amount);
+        this.repository.save(product);
         return product.getAmount();
     }
 }
