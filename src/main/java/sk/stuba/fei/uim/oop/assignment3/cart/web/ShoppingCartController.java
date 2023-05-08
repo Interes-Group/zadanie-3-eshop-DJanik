@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import sk.stuba.fei.uim.oop.assignment3.cart.logic.ShoppingCartService;
-import sk.stuba.fei.uim.oop.assignment3.cart.web.bodies.CartItem;
+import sk.stuba.fei.uim.oop.assignment3.cart.web.bodies.CartItemRequest;
 import sk.stuba.fei.uim.oop.assignment3.cart.web.bodies.CartResponse;
 import sk.stuba.fei.uim.oop.assignment3.exception.IllegalOperationException;
 import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
@@ -25,7 +25,7 @@ public class ShoppingCartController {
 
     @PostMapping()
     public ResponseEntity<CartResponse> createShoppingCart() {
-        return new ResponseEntity<>(new CartResponse(this.service.create()), HttpStatus.CREATED);
+        return new ResponseEntity<>(new CartResponse(this.service.createCart()), HttpStatus.CREATED);
     }
     
     @GetMapping(value = "/{id}")
@@ -39,7 +39,12 @@ public class ShoppingCartController {
     }
 
     @PostMapping(value = "/{id}/add")
-    public CartItem addProductToCart(@PathVariable("id") long id, @RequestBody CartItem cartItem) throws NotFoundException, IllegalOperationException {
-        return null;
+    public CartResponse addProductToCart(@PathVariable("id") long id, @RequestBody CartItemRequest cartItem) throws NotFoundException, IllegalOperationException {
+        return new CartResponse(this.service.addProductToCart(id, cartItem));
+    }
+
+    @GetMapping(value = "/{id}/pay")
+    public double payForCart(@PathVariable("id") long id) throws NotFoundException, IllegalOperationException {
+        return this.service.payForCart(id);
     }
 }
