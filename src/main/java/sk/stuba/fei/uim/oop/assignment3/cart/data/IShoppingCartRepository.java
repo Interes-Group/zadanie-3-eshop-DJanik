@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ICartItemRepository extends JpaRepository<CartItem, Long> {
-    CartItem findById(long id);
+public interface IShoppingCartRepository extends JpaRepository<ShoppingCart, Long> {
+    ShoppingCart findById(long id);
 }

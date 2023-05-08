@@ -33,12 +33,11 @@ public class ProductService implements IProductService {
 
     @Override
     public Product getProduct(long id) throws NotFoundException {
-        for (Product product : this.getAll()) {
-            if (product.getId() == id) {
-                return product;
-            }
+        Product product = this.repository.findById(id);
+        if (product == null) {
+            throw new NotFoundException();
         }
-        throw new NotFoundException();
+        return product;
     }
     
     @Override
