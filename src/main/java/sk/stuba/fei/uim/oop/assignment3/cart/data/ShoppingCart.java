@@ -1,22 +1,29 @@
 package sk.stuba.fei.uim.oop.assignment3.cart.data;
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Data;
-import sk.stuba.fei.uim.oop.assignment3.product.data.Product;
 
 @Entity
 @Data
-public class CartItem {
+public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @OneToMany
+    private List<CartItem> shoppingList;
     
-    @ManyToOne
-    private Product product;
-    private long amount;
+    private boolean payed;
+
+    public ShoppingCart() {
+        this.shoppingList = new ArrayList<CartItem>();
+    }
 }
