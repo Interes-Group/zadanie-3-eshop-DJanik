@@ -13,11 +13,21 @@ public class CartItemService implements ICartItemService {
     private ICartItemRepository repository;
 
     @Override
-    public CartItem getCart(long id) throws NotFoundException {
+    public CartItem getCartItem(long id) throws NotFoundException {
         CartItem item = this.repository.findById(id);
         if (item == null) {
             throw new NotFoundException();
         }
         return item;
+    }
+
+    @Override
+    public CartItem createCartItem() throws NotFoundException {
+        return this.repository.save(new CartItem());
+    }
+
+    @Override
+    public void removeCartItem(long id) throws NotFoundException {
+        this.repository.delete(this.getCartItem(id));
     }
 }
