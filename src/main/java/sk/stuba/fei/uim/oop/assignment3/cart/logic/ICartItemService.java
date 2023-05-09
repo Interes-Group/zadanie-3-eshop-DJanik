@@ -8,4 +8,5 @@ public interface ICartItemService {
     CartItem getCartItem(long id) throws NotFoundException;
     CartItem createCartItem() throws NotFoundException;
     void removeCartItem(long id) throws NotFoundException;
+    CartItem add(CartItem item) throws NotFoundException;
 }

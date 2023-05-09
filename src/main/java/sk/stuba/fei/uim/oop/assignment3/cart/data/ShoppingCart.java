@@ -18,7 +18,7 @@ public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
     private List<CartItem> shoppingList;
     
     private boolean payed;

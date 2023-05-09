@@ -44,7 +44,7 @@ public class ShoppingCartController {
     }
 
     @GetMapping(value = "/{id}/pay")
-    public double payForCart(@PathVariable("id") long id) throws NotFoundException, IllegalOperationException {
-        return this.service.payForCart(id);
+    public String payForCart(@PathVariable("id") long id) throws NotFoundException, IllegalOperationException {
+        return "" + this.service.payForCart(id);
     }
 }

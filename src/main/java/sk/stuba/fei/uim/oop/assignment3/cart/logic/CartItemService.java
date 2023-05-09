@@ -30,4 +30,9 @@ public class CartItemService implements ICartItemService {
     public void removeCartItem(long id) throws NotFoundException {
         this.repository.delete(this.getCartItem(id));
     }
+
+    @Override
+    public CartItem add(CartItem item) throws NotFoundException {
+        return this.repository.save(item);
+    }
 }

@@ -9,11 +9,16 @@ import sk.stuba.fei.uim.oop.assignment3.cart.data.ShoppingCart;
 import sk.stuba.fei.uim.oop.assignment3.cart.web.bodies.CartItemRequest;
 import sk.stuba.fei.uim.oop.assignment3.exception.IllegalOperationException;
 import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
+import sk.stuba.fei.uim.oop.assignment3.product.logic.ProductService;
 
 @Service
 public class ShoppingCartService implements IShoppingCartService {
     @Autowired
     private IShoppingCartRepository repository;
+    @Autowired
+    private ICartItemService cartItemService;
+    @Autowired
+    private ProductService productService;
 
     @Override
     public ShoppingCart createCart() {
@@ -40,7 +45,30 @@ public class ShoppingCartService implements IShoppingCartService {
         if (cart.isPayed()) {
             throw new IllegalOperationException();
         }
-        return null;
+        CartItem requestedItem = null;
+        for (CartItem item : cart.getShoppingList()) {
+            if (item.getProduct().getId() == cartItem.getProductId()) {
+                requestedItem = item;
+                break;
+            }
+        }
+
+        if (requestedItem != null && cartItem.getAmount() > productService.getProduct(cartItem.getProductId()).getAmount()) {
+            throw new IllegalOperationException();
+        }
+
+        if (requestedItem == null) {
+            requestedItem = cartItemService.createCartItem();
+            requestedItem.setProduct(productService.getProduct(cartItem.getProductId()));
+            requestedItem.setAmount(cartItem.getAmount());
+            productService.removeAmount(requestedItem.getProduct().getId(), requestedItem.getAmount());
+            cart.getShoppingList().add(cartItemService.add(requestedItem));
+        } else {
+            requestedItem.setAmount(requestedItem.getAmount() + cartItem.getAmount());
+            productService.removeAmount(requestedItem.getProduct().getId(), requestedItem.getAmount());
+            cartItemService.add(requestedItem);
+        }
+        return this.repository.save(cart);
     }
 
     @Override
