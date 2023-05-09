@@ -53,7 +53,7 @@ public class ShoppingCartService implements IShoppingCartService {
             }
         }
 
-        if (requestedItem != null && cartItem.getAmount() > productService.getProduct(cartItem.getProductId()).getAmount()) {
+        if (productService.getProduct(cartItem.getProductId()).getAmount() - cartItem.getAmount() < 0) {
             throw new IllegalOperationException();
         }
 
@@ -61,13 +61,12 @@ public class ShoppingCartService implements IShoppingCartService {
             requestedItem = cartItemService.createCartItem();
             requestedItem.setProduct(productService.getProduct(cartItem.getProductId()));
             requestedItem.setAmount(cartItem.getAmount());
-            productService.removeAmount(requestedItem.getProduct().getId(), requestedItem.getAmount());
             cart.getShoppingList().add(cartItemService.add(requestedItem));
         } else {
             requestedItem.setAmount(requestedItem.getAmount() + cartItem.getAmount());
-            productService.removeAmount(requestedItem.getProduct().getId(), requestedItem.getAmount());
             cartItemService.add(requestedItem);
         }
+        productService.removeAmount(requestedItem.getProduct().getId(), requestedItem.getAmount());
         return this.repository.save(cart);
     }
 
@@ -79,7 +78,7 @@ public class ShoppingCartService implements IShoppingCartService {
         }
         double charge = 0;
         for (CartItem item : cart.getShoppingList()) {
-            charge += item.getProduct().getPrice() * item.getProduct().getAmount();
+            charge += (double) (item.getAmount() * item.getProduct().getPrice());
         }
         cart.setPayed(true);
         this.repository.save(cart);
