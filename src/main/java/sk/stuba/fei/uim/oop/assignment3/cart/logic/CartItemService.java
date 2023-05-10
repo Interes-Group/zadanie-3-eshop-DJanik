@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import sk.stuba.fei.uim.oop.assignment3.cart.data.CartItem;
 import sk.stuba.fei.uim.oop.assignment3.cart.data.ICartItemRepository;
-import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
 
 @Service
 public class CartItemService implements ICartItemService {
@@ -13,26 +12,12 @@ public class CartItemService implements ICartItemService {
     private ICartItemRepository repository;
 
     @Override
-    public CartItem getCartItem(long id) throws NotFoundException {
-        CartItem item = this.repository.findById(id);
-        if (item == null) {
-            throw new NotFoundException();
-        }
-        return item;
-    }
-
-    @Override
-    public CartItem createCartItem() throws NotFoundException {
+    public CartItem createCartItem() {
         return this.repository.save(new CartItem());
     }
 
     @Override
-    public void removeCartItem(long id) throws NotFoundException {
-        this.repository.delete(this.getCartItem(id));
-    }
-
-    @Override
-    public CartItem add(CartItem item) throws NotFoundException {
+    public CartItem add(CartItem item) {
         return this.repository.save(item);
     }
 }

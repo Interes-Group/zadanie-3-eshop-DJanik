@@ -34,12 +34,12 @@ public class ProductService implements IProductService {
     @Override
     public Product getProduct(long id) throws NotFoundException {
         Product product = this.repository.findById(id);
-        if (product == null) {
-            throw new NotFoundException();
+        if (product != null) {
+            return product;
         }
-        return product;
+        throw new NotFoundException();
     }
-    
+
     @Override
     public Product modifyProduct(long id, ProductRequest request) throws NotFoundException {
         Product product = this.getProduct(id);
@@ -63,17 +63,9 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public long addAmount(long id, long amount) throws NotFoundException {
+    public long modifyAmount(long id, long amount) throws NotFoundException {
         Product product = this.getProduct(id);
         product.setAmount(product.getAmount() + amount);
-        this.repository.save(product);
-        return product.getAmount();
-    }
-
-    @Override
-    public long removeAmount(long id, long amount) throws NotFoundException {
-        Product product = this.getProduct(id);
-        product.setAmount(product.getAmount() - amount);
         this.repository.save(product);
         return product.getAmount();
     }

@@ -27,7 +27,7 @@ public class ShoppingCartController {
     public ResponseEntity<CartResponse> createShoppingCart() {
         return new ResponseEntity<>(new CartResponse(this.service.createCart()), HttpStatus.CREATED);
     }
-    
+
     @GetMapping(value = "/{id}")
     public CartResponse getCartById(@PathVariable("id") long id) throws NotFoundException {
         return new CartResponse(this.service.getCart(id));

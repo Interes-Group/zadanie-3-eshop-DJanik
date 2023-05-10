@@ -14,7 +14,7 @@ public class CartResponse {
 
     public CartResponse(ShoppingCart shoppingCart) {
         this.id = shoppingCart.getId();
-        this.shoppingList = shoppingCart.getShoppingList().stream().map(CartItemRequest::new).collect(Collectors.toList());;
+        this.shoppingList = shoppingCart.getShoppingList().stream().map(CartItemRequest::new).collect(Collectors.toList());
         this.payed = shoppingCart.isPayed();
     }
 }

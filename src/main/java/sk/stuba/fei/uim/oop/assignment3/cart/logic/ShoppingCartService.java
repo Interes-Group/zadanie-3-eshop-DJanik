@@ -28,12 +28,12 @@ public class ShoppingCartService implements IShoppingCartService {
     @Override
     public ShoppingCart getCart(long id) throws NotFoundException {
         ShoppingCart cart = this.repository.findById(id);
-        if (cart == null) {
-            throw new NotFoundException();
+        if (cart != null) {
+            return cart;
         }
-        return cart;
+        throw new NotFoundException();
     }
-    
+
     @Override
     public void deleteCart(long id) throws NotFoundException {
         this.repository.delete(this.getCart(id));
@@ -66,7 +66,7 @@ public class ShoppingCartService implements IShoppingCartService {
             requestedItem.setAmount(requestedItem.getAmount() + cartItem.getAmount());
             cartItemService.add(requestedItem);
         }
-        productService.removeAmount(requestedItem.getProduct().getId(), requestedItem.getAmount());
+        productService.modifyAmount(requestedItem.getProduct().getId(), -requestedItem.getAmount());
         return this.repository.save(cart);
     }
 
@@ -78,7 +78,7 @@ public class ShoppingCartService implements IShoppingCartService {
         }
         double charge = 0;
         for (CartItem item : cart.getShoppingList()) {
-            charge += (double) (item.getAmount() * item.getProduct().getPrice());
+            charge += item.getAmount() * item.getProduct().getPrice();
         }
         cart.setPayed(true);
         this.repository.save(cart);

@@ -44,10 +44,10 @@ public class ProductController {
     }
 
     @PutMapping(value = "/{id}")
-    public ProductResponse updateProduct(@PathVariable("id") long id,@RequestBody ProductRequest product) throws NotFoundException {
-        return new ProductResponse(this.service.modifyProduct(id,product));
+    public ProductResponse updateProduct(@PathVariable("id") long id, @RequestBody ProductRequest product) throws NotFoundException {
+        return new ProductResponse(this.service.modifyProduct(id, product));
     }
-    
+
     @DeleteMapping(value = "/{id}")
     public void deleteProduct(@PathVariable("id") long id) throws NotFoundException {
         this.service.deleteProduct(id);
@@ -59,7 +59,7 @@ public class ProductController {
     }
 
     @PostMapping(value = "/{id}/amount")
-    public Amount updateProductAmount(@PathVariable("id") long id,@RequestBody Amount amount) throws NotFoundException {
-        return new Amount(this.service.addAmount(id, amount.getAmount()));
+    public Amount updateProductAmount(@PathVariable("id") long id, @RequestBody Amount amount) throws NotFoundException {
+        return new Amount(this.service.modifyAmount(id, amount.getAmount()));
     }
 }
