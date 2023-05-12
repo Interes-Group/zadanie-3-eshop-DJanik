@@ -6,7 +6,7 @@ import lombok.Getter;
 public class ProductRequest {
     private String name;
     private String description;
-    private long amount;
+    private int amount;
     private String unit;
     private double price;
 }

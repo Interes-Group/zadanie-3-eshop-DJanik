@@ -10,7 +10,7 @@ import sk.stuba.fei.uim.oop.assignment3.cart.data.CartItem;
 @NoArgsConstructor
 public class CartItemRequest {
     private long productId;
-    private long amount;
+    private int amount;
 
     public CartItemRequest(CartItem cartItem) {
         this.productId = cartItem.getProduct().getId();
