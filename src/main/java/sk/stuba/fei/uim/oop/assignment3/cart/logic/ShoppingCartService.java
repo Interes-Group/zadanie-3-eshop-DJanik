@@ -26,8 +26,8 @@ public class ShoppingCartService implements IShoppingCartService {
     }
 
     @Override
-    public ShoppingCart getCart(long id) throws NotFoundException {
-        ShoppingCart cart = this.repository.findById(id);
+    public ShoppingCart getCart(Long id) throws NotFoundException {
+        ShoppingCart cart = this.repository.findShoppingCartById(id);
         if (cart != null) {
             return cart;
         }
@@ -35,19 +35,19 @@ public class ShoppingCartService implements IShoppingCartService {
     }
 
     @Override
-    public void deleteCart(long id) throws NotFoundException {
+    public void deleteCart(Long id) throws NotFoundException {
         this.repository.delete(this.getCart(id));
     }
 
     @Override
-    public ShoppingCart addProductToCart(long id, CartItemRequest cartItem) throws NotFoundException, IllegalOperationException {
+    public ShoppingCart addProductToCart(Long id, CartItemRequest cartItem) throws NotFoundException, IllegalOperationException {
         ShoppingCart cart = this.getCart(id);
         if (cart.isPayed()) {
             throw new IllegalOperationException();
         }
         CartItem requestedItem = null;
         for (CartItem item : cart.getShoppingList()) {
-            if (item.getProduct().getId() == cartItem.getProductId()) {
+            if (item.getProduct().getId().equals(cartItem.getProductId())) {
                 requestedItem = item;
                 break;
             }
@@ -71,7 +71,7 @@ public class ShoppingCartService implements IShoppingCartService {
     }
 
     @Override
-    public double payForCart(long id) throws NotFoundException, IllegalOperationException {
+    public double payForCart(Long id) throws NotFoundException, IllegalOperationException {
         ShoppingCart cart = this.getCart(id);
         if (cart.isPayed()) {
             throw new IllegalOperationException();

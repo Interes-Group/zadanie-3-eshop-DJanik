@@ -8,11 +8,11 @@ import sk.stuba.fei.uim.oop.assignment3.exception.NotFoundException;
 public interface IShoppingCartService {
     ShoppingCart createCart();
 
-    ShoppingCart getCart(long id) throws NotFoundException;
+    ShoppingCart getCart(Long id) throws NotFoundException;
 
-    void deleteCart(long id) throws NotFoundException;
+    void deleteCart(Long id) throws NotFoundException;
 
-    ShoppingCart addProductToCart(long id, CartItemRequest cartItem) throws NotFoundException, IllegalOperationException;
+    ShoppingCart addProductToCart(Long id, CartItemRequest cartItem) throws NotFoundException, IllegalOperationException;
 
-    double payForCart(long id) throws NotFoundException, IllegalOperationException;
+    double payForCart(Long id) throws NotFoundException, IllegalOperationException;
 }
